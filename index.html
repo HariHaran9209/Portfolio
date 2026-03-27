@@ -173,6 +173,13 @@
     100% { opacity: 0; transform: scaleX(1.5); transform-origin: left; }
   }
 
+  /* Fix hero content stacking — everything inside hero needs to be above hero-bg */
+  .hero > *:not(.hero-bg):not(.hero-accent) {
+    position: relative;
+    z-index: 2;
+  }
+  .hero-accent { z-index: 1; }
+
   /* LAP COUNTER (top right corner decoration) */
   .lap-display {
     position: absolute;
@@ -180,6 +187,7 @@
     right: 48px;
     text-align: right;
     font-family: var(--mono);
+    z-index: 3;
   }
   .lap-display .lap-label {
     font-size: 10px;
@@ -190,10 +198,98 @@
   }
   .lap-display .lap-number {
     font-family: var(--display);
-    font-size: 80px;
+    font-size: 140px;
     line-height: 1;
-    color: rgba(245,240,232,0.05);
-    letter-spacing: -2px;
+    color: rgba(245,240,232,0.04);
+    letter-spacing: -4px;
+  }
+
+  /* HERO VISUAL — right side graphic */
+  .hero-visual {
+    position: absolute;
+    top: 0; right: 0;
+    width: 45%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .hero-visual-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* Big ghosted HH letters as visual anchor */
+  .hero-ghost-text {
+    font-family: var(--display);
+    font-size: clamp(200px, 28vw, 420px);
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(232,0,45,0.12);
+    letter-spacing: -10px;
+    line-height: 1;
+    user-select: none;
+    position: absolute;
+  }
+  /* Red vertical accent line */
+  .hero-vert-line {
+    position: absolute;
+    left: 0;
+    top: 15%;
+    height: 70%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--red), transparent);
+    opacity: 0.5;
+  }
+  /* Floating info badges */
+  .hero-badge {
+    position: absolute;
+    background: rgba(232,0,45,0.08);
+    border: 1px solid rgba(232,0,45,0.2);
+    border-left: 2px solid var(--red);
+    padding: 10px 16px;
+    font-family: var(--mono);
+    backdrop-filter: blur(4px);
+  }
+  .hero-badge-label {
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .hero-badge-value {
+    font-size: 13px;
+    color: var(--white);
+    letter-spacing: 1px;
+  }
+  .hero-badge.b1 { top: 28%; left: 12%; animation: floatBadge 4s ease-in-out infinite; }
+  .hero-badge.b2 { top: 48%; left: 38%; animation: floatBadge 4s ease-in-out infinite 1.3s; }
+  .hero-badge.b3 { top: 65%; left: 8%; animation: floatBadge 4s ease-in-out infinite 2.6s; }
+  @keyframes floatBadge {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+  /* Dot grid decoration */
+  .hero-dot-grid {
+    position: absolute;
+    right: 40px;
+    bottom: 120px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    opacity: 0.2;
+  }
+  .hero-dot-grid span {
+    width: 3px; height: 3px;
+    background: var(--white);
+    border-radius: 50%;
+    display: block;
   }
 
   .hero-eyebrow {
@@ -607,6 +703,293 @@
     color: var(--muted);
   }
 
+  /* REFLECTA SPOTLIGHT */
+  .reflecta-section {
+    padding: 120px 48px;
+    position: relative;
+    overflow: hidden;
+    background: var(--dark);
+  }
+  .reflecta-section::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(232,0,45,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .reflecta-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .reflecta-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .reflecta-label::before {
+    content: 'SPOTLIGHT';
+    opacity: 0.3;
+  }
+  .reflecta-label::after {
+    content: '';
+    width: 60px; height: 1px;
+    background: var(--red);
+  }
+  .reflecta-title {
+    font-family: var(--display);
+    font-size: clamp(60px, 8vw, 100px);
+    letter-spacing: 2px;
+    line-height: 0.9;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+  .reflecta-title span { color: var(--red); }
+  .reflecta-tagline {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .reflecta-desc {
+    font-size: 16px;
+    line-height: 1.85;
+    color: rgba(245,240,232,0.65);
+    font-weight: 300;
+    margin-bottom: 36px;
+    max-width: 480px;
+  }
+  .reflecta-features {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+  .reflecta-feature {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 13px;
+    color: rgba(245,240,232,0.7);
+    font-weight: 300;
+  }
+  .reflecta-feature::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--red);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .reflecta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--white);
+    border: 1px solid rgba(245,240,232,0.2);
+    padding: 14px 28px;
+    text-decoration: none;
+    transition: all 0.2s;
+    margin-right: 12px;
+  }
+  .reflecta-btn:hover {
+    border-color: var(--red);
+    color: var(--red);
+    transform: translateY(-2px);
+  }
+  .reflecta-btn.primary {
+    background: var(--red);
+    border-color: var(--red);
+    color: var(--dark);
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+  }
+  .reflecta-btn.primary:hover {
+    background: var(--white);
+    border-color: var(--white);
+    color: var(--dark);
+  }
+  /* SCREEN MOCKUPS */
+  .reflecta-screens {
+    position: relative;
+    height: 480px;
+  }
+  .screen {
+    position: absolute;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(245,240,232,0.08);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+  }
+  .screen-main {
+    width: 100%;
+    max-width: 360px;
+    right: 0;
+    top: 0;
+    z-index: 2;
+    background: #0f0f14;
+    padding: 0;
+    animation: screenFloat 5s ease-in-out infinite;
+  }
+  .screen-secondary {
+    width: 260px;
+    left: 0;
+    top: 160px;
+    z-index: 3;
+    background: #0f0f14;
+    animation: screenFloat 5s ease-in-out infinite 2s;
+  }
+  @keyframes screenFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+  }
+  /* Mock browser bar */
+  .mock-bar {
+    background: #1a1a22;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .mock-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .mock-dot.r { background: #E8002D; }
+  .mock-dot.y { background: #FFD700; }
+  .mock-dot.g { background: #00CC66; }
+  .mock-url {
+    margin-left: 10px;
+    flex: 1;
+    height: 20px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+  /* Mock app content */
+  .mock-content { padding: 20px; }
+  .mock-header {
+    font-family: var(--display);
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .mock-sub {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--red);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .mock-question {
+    background: rgba(232,0,45,0.06);
+    border: 1px solid rgba(232,0,45,0.15);
+    border-left: 2px solid var(--red);
+    padding: 14px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .mock-q-text {
+    font-size: 12px;
+    color: rgba(245,240,232,0.8);
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+  .mock-q-meta {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    display: flex;
+    gap: 12px;
+  }
+  .mock-answer-box {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+  .mock-input {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-size: 11px;
+    color: var(--muted);
+    font-family: var(--body);
+    margin-bottom: 8px;
+  }
+  .mock-btn-row {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+  .mock-pill {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--muted);
+    cursor: default;
+  }
+  .mock-pill.active {
+    background: var(--red);
+    border-color: var(--red);
+    color: white;
+  }
+  /* REFLECTA STACK TAGS */
+  .reflecta-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .r-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    border: 1px solid rgba(245,240,232,0.1);
+    padding: 5px 12px;
+    text-transform: uppercase;
+  }
+  .r-tag.active {
+    border-color: rgba(232,0,45,0.35);
+    color: rgba(232,0,45,0.8);
+  }
+
+  /* PROJECT CARD CLICKABLE */
+  .project-card {
+    text-decoration: none;
+    display: block;
+    color: inherit;
+  }
+
   /* FOOTER */
   footer {
     padding: 40px 48px;
@@ -692,6 +1075,7 @@
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#projects">Projects</a></li>
+    <li><a href="#reflecta">Reflecta</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -721,6 +1105,29 @@
     <div class="speed-lines" id="speedLines"></div>
   </div>
   <div class="hero-accent"></div>
+
+  <!-- RIGHT SIDE VISUAL -->
+  <div class="hero-visual">
+    <div class="hero-vert-line"></div>
+    <div class="hero-visual-inner">
+      <div class="hero-ghost-text">HH</div>
+      <div class="hero-badge b1">
+        <div class="hero-badge-label">Based In</div>
+        <div class="hero-badge-value">Salem, TN</div>
+      </div>
+      <div class="hero-badge b2">
+        <div class="hero-badge-label">Currently</div>
+        <div class="hero-badge-value">Class XII · Building</div>
+      </div>
+      <div class="hero-badge b3">
+        <div class="hero-badge-label">Status</div>
+        <div class="hero-badge-value">● Open to Work</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOT GRID DECORATION -->
+  <div class="hero-dot-grid" id="dotGrid"></div>
 
   <div class="lap-display">
     <div class="lap-label">Sector</div>
@@ -864,7 +1271,7 @@
   <h2 class="section-title reveal">Selected<br>Projects</h2>
 
   <div class="projects-grid reveal">
-    <div class="project-card">
+    <a class="project-card" href="https://bio-data-p121.onrender.com/biodata/farewell/" target="_blank" rel="noopener">
       <div class="project-num">P01 — 2025</div>
       <div class="project-name">Farewell Website</div>
       <p class="project-desc">A Place Where Juniors Send off their seniors with personal heartfelt messages, An Countdown of the event, RSVP for seniors to sign their Names.</p>
@@ -875,8 +1282,8 @@
         <span class="tag">CSS</span>
        <span class="tag">JS</span>
       </div>
-    </div>
-    <div class="project-card">
+    </a>
+    <a class="project-card" href="https://bio-data-p121.onrender.com/biodata/home/" target="_blank" rel="noopener">
       <div class="project-num">P02 — 2024</div>
       <div class="project-name">BioData</div>
       <p class="project-desc">A Website where students can give their biodata details in a form and admins can access all students data from the dasdboard and export it as excel.</p>
@@ -885,8 +1292,8 @@
         <span class="tag">Python</span>
         <span class="tag">PostgreSQL</span>
       </div>
-    </div>
-    <div class="project-card">
+    </a>
+    <a class="project-card" href="https://student-app-tuh5.onrender.com/" target="_blank" rel="noopener">
       <div class="project-num">P03 — 2025</div>
       <div class="project-name">Student App</div>
       <p class="project-desc">An Student App where students can check their marks by entering their roll number and teachers can upload the marksheet of a number of students and my website automatically assigns the marks to corresponding students.</p>
@@ -896,8 +1303,8 @@
         <span class="tag">PostgreSQL</span>
         <span class="tag">Python</span>
       </div>
-    </div>
-    <div class="project-card">
+    </a>
+    <a class="project-card" href="https://happy-birthday-6dw1.onrender.com/" target="_blank" rel="noopener">
       <div class="project-num">P04 — 2025</div>
       <div class="project-name">Birthday & Anniversary Website</div>
       <p class="project-desc">Physical gifts ain't the special ones always, sometimes we can create a website and convey our love through it and also give a space for others to express as well.</p>
@@ -906,8 +1313,8 @@
         <span class="tag">Google Firebase</span>
         <span class="tag">MongoDB</span>
       </div>
-    </div>
-    <div class="project-card">
+    </a>
+    <a class="project-card" href="https://score-board-k6de.onrender.com/" target="_blank" rel="noopener">
       <div class="project-num">P05 — 2025</div>
       <div class="project-name">Cricket Scoreboard</div>
       <p class="project-desc">Real-time React scoreboard with player selection, overs logic, batting order, strike rate tracking, and Context API state management.</p>
@@ -916,8 +1323,8 @@
         <span class="tag">Context API</span>
         <span class="tag">Vite</span>
       </div>
-    </div>
-    <div class="project-card">
+    </a>
+    <a class="project-card" href="https://placeholder-parking.netlify.app" target="_blank" rel="noopener">
       <div class="project-num">P06 — 2025</div>
       <div class="project-name">Smart Parking System With Online Reservation</div>
       <p class="project-desc">A platform allows users to view real-time parking availability, reserve slots in advance, receive a booking confirmation (QR/ID). features like login/signup, slot selection interface, time-based booking, QR/ID verification, optional payment, and an admin dashboard for monitoring and control.</p>
@@ -926,6 +1333,98 @@
         <span class="tag">C++(Arduino IDE)</span>
         <span class="tag">ESP32</span>
       </div>
+    </a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- REFLECTA SPOTLIGHT -->
+<section class="reflecta-section" id="reflecta">
+  <div class="reflecta-inner reveal">
+    <!-- LEFT: INFO -->
+    <div>
+      <div class="reflecta-label">Current Build</div>
+      <h2 class="reflecta-title">REFLEC<span>TA</span></h2>
+      <div class="reflecta-tagline">Where Thoughts Find a Home</div>
+      <p class="reflecta-desc">
+        An interactive web platform designed for meaningful engagement — where users explore thought-provoking questions, share honest responses, and connect through reflections. Not social media. Something more intentional.
+      </p>
+      <div class="reflecta-features">
+        <div class="reflecta-feature">User authentication &amp; personal profiles</div>
+        <div class="reflecta-feature">Dynamic question feeds curated for depth</div>
+        <div class="reflecta-feature">Answer posting with rich text expression</div>
+        <div class="reflecta-feature">Clean interface built for focus, not noise</div>
+        <div class="reflecta-feature">Community through shared thoughts</div>
+      </div>
+      <div>
+        <a href="https://reflecta-kivo.onrender.com/boss" target="_blank" class="reflecta-btn primary">Visit Reflecta ↗</a>
+        <a href="https://github.com/HariHaran9209/Reflecta" target="_blank" class="reflecta-btn">GitHub ↗</a>
+      </div>
+      <div class="reflecta-stack">
+        <span class="r-tag active">MERN</span>
+        <span class="r-tag active">React</span>
+        <span class="r-tag">MongoDB</span>
+        <span class="r-tag">Node.js</span>
+        <span class="r-tag">Express</span>
+        <span class="r-tag">JWT Auth</span>
+      </div>
+    </div>
+
+    <!-- RIGHT: MOCK SCREENS -->
+    <div class="reflecta-screens">
+      <!-- MAIN SCREEN -->
+      <div class="screen screen-main">
+        <div class="mock-bar">
+          <div class="mock-dot r"></div>
+          <div class="mock-dot y"></div>
+          <div class="mock-dot g"></div>
+          <div class="mock-url">reflecta.app/feed</div>
+        </div>
+        <div class="mock-content">
+          <div class="mock-header">REFLECTA</div>
+          <div class="mock-sub">Today's Questions</div>
+          <div style="display:flex;gap:8px;margin-bottom:16px;">
+            <span class="mock-pill active">For You</span>
+            <span class="mock-pill">Trending</span>
+            <span class="mock-pill">New</span>
+          </div>
+          <div class="mock-question">
+            <div class="mock-q-text">What's one thing you know now that you wish you'd known at 15?</div>
+            <div class="mock-q-meta"><span>142 answers</span><span>🔥 Trending</span></div>
+          </div>
+          <div class="mock-question">
+            <div class="mock-q-text">If your life had a soundtrack right now, what genre would it be?</div>
+            <div class="mock-q-meta"><span>89 answers</span><span>✨ Explore</span></div>
+          </div>
+          <div class="mock-question">
+            <div class="mock-q-text">What does "home" mean to you — a place, a feeling, or a person?</div>
+            <div class="mock-q-meta"><span>203 answers</span><span>💬 Deep</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECONDARY SCREEN — Answer view -->
+      <div class="screen screen-secondary">
+        <div class="mock-bar">
+          <div class="mock-dot r"></div>
+          <div class="mock-dot y"></div>
+          <div class="mock-dot g"></div>
+          <div class="mock-url">reflecta.app/q/142</div>
+        </div>
+        <div class="mock-content">
+          <div style="font-size:11px;color:rgba(245,240,232,0.5);margin-bottom:10px;line-height:1.5;">What's one thing you know now that you wish you'd known at 15?</div>
+          <div class="mock-answer-box">That most things that feel world-ending at 15 become the stories you tell proudly at 25.</div>
+          <div class="mock-answer-box" style="border-color:rgba(232,0,45,0.2);">That it's okay not to have everything figured out yet.</div>
+          <input class="mock-input" value="Share your reflection..." readonly>
+          <div class="mock-btn-row">
+            <span class="mock-pill active" style="background:var(--red);border-color:var(--red);color:white;">Post</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- GLOW BEHIND SCREENS -->
+      <div style="position:absolute;bottom:-40px;right:20px;width:300px;height:200px;background:radial-gradient(ellipse,rgba(232,0,45,0.1) 0%,transparent 70%);pointer-events:none;z-index:1;"></div>
     </div>
   </div>
 </section>
@@ -999,7 +1498,7 @@
     </div>
 
     <div class="contact-links">
-      <a class="contact-link" href="mailto:hariharanmuthukumarslm@gmail.com">
+      <a class="contact-link" href="/cdn-cgi/l/email-protection#a5cdc4d7cccdc4d7c4cbc8d0d1cdd0ced0c8c4d7d6c9c8e5c2c8c4ccc98bc6cac8">
         <span class="link-platform">Email</span>
         <span class="link-arrow">↗</span>
       </a>
@@ -1026,7 +1525,7 @@
   <p>Designed & Built by Hari</p>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // CURSOR
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
@@ -1058,8 +1557,18 @@ document.querySelectorAll('a, button, .project-card, .interest-row').forEach(el 
   });
 });
 
+// DOT GRID
+const dotGrid = document.getElementById('dotGrid');
+if (dotGrid) {
+  for (let i = 0; i < 42; i++) {
+    const s = document.createElement('span');
+    dotGrid.appendChild(s);
+  }
+}
+
 // SPEED LINES
 const linesContainer = document.getElementById('speedLines');
+if (linesContainer) {
 for (let i = 0; i < 8; i++) {
   const line = document.createElement('div');
   line.className = 'speed-line';
@@ -1072,6 +1581,7 @@ for (let i = 0; i < 8; i++) {
     opacity: ${0.2 + Math.random() * 0.3};
   `;
   linesContainer.appendChild(line);
+}
 }
 
 // SCROLL REVEAL
@@ -1105,9 +1615,11 @@ const skillObserver = new IntersectionObserver(entries => {
       });
     }
   });
-}, { threshold: 0.2 });
+}, { threshold: 0.3 });
+
 const skillsEl = document.getElementById('skills-grid');
 if (skillsEl) skillObserver.observe(skillsEl);
 </script>
+
 </body>
 </html>
